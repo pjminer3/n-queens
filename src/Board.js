@@ -79,11 +79,30 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      // declare variable => get the row, using the index
+      var row = this.get(rowIndex);
+      // in our row, see if it contains if there's greater than 1 ones
+      var total = row.reduce(function(total, index) {
+        return total + index;
+      }, 0);
+        // if there is more than one 1s, return true
+      if (total > 1) {
+        return true;
+        // else return false
+      } else {
+        return false; // fixme
+      }
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
+      var allRows = this.rows();
+      for (var i = 0; i < allRows.length; i++) {
+        if (this.hasRowConflictAt(i) === true) {
+          return true;
+        };
+      }
+
       return false; // fixme
     },
 
@@ -94,11 +113,32 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      // create var column = [];
+      var column = [];
+      // var rows = this.rows();
+      var rows = this.rows();
+      // looping through rows... for each row
+      for (var i = 0; i < rows.length; i++) {
+        // push the element at the index given to the column
+        column.push(rows[i][colIndex]);
+      }
+      // var total = reduce column to a total number
+      var total = column.reduce(function(total, index) {
+        return total + index;
+      }, 0);
+      // if total > 1 => return true
+      return (total > 1);
+        // else return false
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
+      for (var i = 0; i < this.rows().length; i++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
+      // if it doesn't return true;
       return false; // fixme
     },
 
