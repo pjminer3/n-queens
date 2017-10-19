@@ -149,12 +149,49 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      //Create an array of rows
+      var rows = this.rows();
+      //Create an empty array diagonals
+      var diagonals = [];
+      //Loop through each row (i)
+      for (var i = 0; i < rows.length; i++) {
+        //Loop through each index (j)
+        for (var j = 0; j < rows.length; j++) {
+          //if this getFirstRowColumnIndexForMajorDiagonalOn(i,j) === input
+          if (this._getFirstRowColumnIndexForMajorDiagonalOn(i,j) === majorDiagonalColumnIndexAtFirstRow) {
+            //diagonals.push rows[i][j]
+            diagonals.push(rows[i][j]);
+            //i++
+            i++;
+            //j++
+            j++;
+            //while (this._isInBounds(i,j))
+            while (this._isInBounds(i,j)) {
+              //diagonals.push(rows[i][j])
+              diagonals.push(rows[i][j]);
+              //i++
+              i++;
+              //j++
+              j++;
+            }
+            //break
+            break;
+          }
+        }
+      }
+
+      //set sum = reduce the diagonals
+      var sum = diagonals.reduce(function(sum, element) {
+        return sum + element;
+      }, 0)
+      //return sum > 1
+      return sum > 1;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+
+      
     },
 
 
