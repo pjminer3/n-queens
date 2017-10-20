@@ -19,8 +19,8 @@ window.findNRooksSolution = function(n) {
   // creates base blank board object
   var realBoard = new Board({n: n});
 
-  // internal recursive function to add rooks to board
-  function addRook(board, numRooks, usedRows, usedCols) {
+  //internal recursive function to add rooks to board
+  function addRook(board, numRooks, usedRows, usedCols) { /*firstIndex, secondIndex, thirdIndex*/
     // creates board-array representation to view pieces, along with setting used rows/columns if none are passed in
     var boardRows = board.rows()
     var usedRows = usedRows || [];
@@ -57,7 +57,29 @@ window.findNRooksSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  var solutionCount = 0;
+  var board = new Board({n: n});  // n = 3
+
+  function placeRook(rowIdx){
+    // base case triggered only when correct solution in last row
+    if (rowIdx === n) {
+      solutionCount++;
+      return;
+    }
+
+    // iterating over column index
+    for (var i = 0; i < n; i++) {
+      board.togglePiece(rowIdx, i);
+      // check row and column to see if it fails tests
+      if (!board.hasAnyRooksConflicts()) {
+        placeRook(rowIdx + 1);
+      }
+      // toggle piece back
+      board.togglePiece(rowIdx, i);
+    } 
+  }
+
+  placeRook(0);
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
